@@ -3,6 +3,7 @@
 const iterator = require('level-iterator')
     , once = require('once')
     , NotFoundError = require('level-errors').NotFoundError
+    , inspect = require('util').inspect
     , noop = function() {}
 
 function probe(db, opts, done) {
@@ -69,15 +70,11 @@ probe.value = function(db, opts, done) {
 module.exports = probe
 
 function notFound(opts) {
-  const range = []
+  const range = {}
 
-  ;['gt', 'gte', 'lt', 'lte'].forEach(opt => {
-    if (opt in opts) range.push(`${opt}: ${stringify(opts[opt])}`)
+  ;['gt', 'gte', 'lt', 'lte'].forEach(k => {
+    if (k in opts) range[k] = opts[k]
   })
 
-  return new NotFoundError(`No result in range { ${range.join(', ')} }`)
-}
-
-function stringify(v) {
-  return v === undefined ? 'undefined' : JSON.stringify(v)
+  return new NotFoundError(`No result in range ${inspect(range)}`)
 }
