@@ -1,6 +1,6 @@
 {
   "name": "level-probe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get the first result in a range, using an iterator or stream",
   "license": "MIT",
   "author": {
